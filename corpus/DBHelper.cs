@@ -9,11 +9,11 @@ namespace corpus
     public class MySql : IDisposable
     {
 
-        string mysqlHost = "zhinengjiaju-db.chinacloudapp.cn";
+        string mysqlHost = "";
         string mysqlPort = "3306";
         string mysqlDB = "ZhiNengJiaJu";
         string mysqlUser = "root";
-        string mysqlPassword = "mypassword";
+        string mysqlPassword = "";
         MySqlConnection conn;
         MySqlCommand comm;
         public MySql()
