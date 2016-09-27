@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -115,19 +116,58 @@ namespace corpus
                 ExcelHadle eh = new ExcelHadle(selectFileName);
                 MyJson.JsonNode_Array json = eh.GetData();
                 //MessageBox.Show(json.ToString());
-                
+
                 MySql mysql = new MySql();
+                List<string> flist = new List<string>();
+                List<string> qlist = new List<string>();
                 foreach (var item in json)
                 {
                     var fjson = item as MyJson.JsonNode_Object;
                     string id = fjson["id"].ToString();
                     MyJson.JsonNode_Array f = fjson["f"] as MyJson.JsonNode_Array;
                     MyJson.JsonNode_Array q = fjson["q"] as MyJson.JsonNode_Array;
+
+                    //这边的数据库保存进数据库一份
                     mysql.AddSqlData("insert into corpus_f(`f`,`code`) values('" + f.ToString() + "','" + id + "')");
                     mysql.AddSqlData("insert into corpus_q(`q`,`role`,`code`) values('" + q.ToString() + "','" + role.ToString() + "','" + id + "')");
-
+                    //这边的直接生成execl
+                    foreach (var fitem in f)
+                    {
+                        foreach (var qitem in q)
+                        {
+                            flist.Add(fitem.ToString());
+                            qlist.Add(qitem.ToString());
+                        }
+                    }
                 }
                 mysql.Dispose();
+
+                string fileName = "d:\\自动生成.xlsx";
+                Microsoft.Office.Interop.Excel.Application ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+                Workbook ExcelDoc = ExcelApp.Workbooks.Add(Type.Missing);
+                Sheets shs = ExcelDoc.Sheets;
+                _Worksheet _wsh = (_Worksheet)shs.get_Item(1);
+                //Microsoft.Office.Interop.Excel.Worksheet xlSheet = ExcelDoc.Worksheets.Add(Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                ExcelApp.DisplayAlerts = false;
+                for (int i = 1; i < flist.Count + 1; i++)
+                {
+                    _wsh.Cells[i, 1] = flist[i - 1];
+                    _wsh.Cells[i, 2] = qlist[i - 1];
+                }
+
+
+                // 单元格下标是从[1，1]开始的
+                //_wsh.Cells[1, 1] = "Name";
+                //_wsh.Cells[1, 2] = "Sex";
+
+                // 文件保存
+                _wsh.SaveAs(fileName);
+                ExcelDoc.Close(Type.Missing, fileName, Type.Missing);
+                ExcelApp.Quit();
+
+
+
+
                 MessageBox.Show("OK");
             }
         }

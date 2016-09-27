@@ -72,7 +72,16 @@ public class ExcelHadle
         return jsArray;
     }
 
-
+    public void SetData(List<string> flist,List<string> qlist)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            _wsh.Cells[i, 1] = "1";
+            _wsh.Cells[i, 2] = "2";
+        }
+        _wbk.Save();
+        //return true;
+    }
     MyJson.JsonNode_Array GetJsonArray(params object[] _str)
     {
         MyJson.JsonNode_Array myArray = new MyJson.JsonNode_Array();
