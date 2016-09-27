@@ -5,7 +5,6 @@ using System.Data;
 
 namespace corpus
 {
-    [Obsolete("不要用")]
     public class MySql : IDisposable
     {
 

@@ -114,21 +114,21 @@ namespace corpus
                 selectFileName = openFileDialog1.FileName;
                 ExcelHadle eh = new ExcelHadle(selectFileName);
                 MyJson.JsonNode_Array json = eh.GetData();
-                MessageBox.Show(json.ToString());
+                //MessageBox.Show(json.ToString());
                 
                 MySql mysql = new MySql();
                 foreach (var item in json)
                 {
-                    var fjson = new MyJson.JsonNode_Object();
+                    var fjson = item as MyJson.JsonNode_Object;
                     string id = fjson["id"].ToString();
                     MyJson.JsonNode_Array f = fjson["f"] as MyJson.JsonNode_Array;
                     MyJson.JsonNode_Array q = fjson["q"] as MyJson.JsonNode_Array;
-                    long fID = mysql.AddSqlData("insert into corpus_f(`f`) values('"+f.ToString()+"')");
-                    long qID = mysql.AddSqlData("insert into corpus_q(`q`,`role`,`fid`) values('" + q.ToString() + "','" + role.ToString() + "','" + fID + "')");
+                    mysql.AddSqlData("insert into corpus_f(`f`,`code`) values('" + f.ToString() + "','" + id + "')");
+                    mysql.AddSqlData("insert into corpus_q(`q`,`role`,`code`) values('" + q.ToString() + "','" + role.ToString() + "','" + id + "')");
 
                 }
                 mysql.Dispose();
-                
+                MessageBox.Show("OK");
             }
         }
     }
