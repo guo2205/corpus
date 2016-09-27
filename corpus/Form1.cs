@@ -107,6 +107,7 @@ namespace corpus
 
         private void button6_Click(object sender, EventArgs e)
         {
+            int role = 0;
             string selectFileName = string.Empty;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -122,7 +123,9 @@ namespace corpus
                     string id = fjson["id"].ToString();
                     MyJson.JsonNode_Array f = fjson["f"] as MyJson.JsonNode_Array;
                     MyJson.JsonNode_Array q = fjson["q"] as MyJson.JsonNode_Array;
-                    long SqlId = mysql.AddSqlData("insert into (`q`,`role`) values('" + q.ToString() + "','0')");
+                    long fID = mysql.AddSqlData("insert into corpus_f(`f`) values('"+f.ToString()+"')");
+                    long qID = mysql.AddSqlData("insert into corpus_q(`q`,`role`,`fid`) values('" + q.ToString() + "','" + role.ToString() + "','" + fID + "')");
+
                 }
                 mysql.Dispose();
                 
