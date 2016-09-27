@@ -56,8 +56,8 @@ namespace corpus
             {
                 if (comm.ExecuteNonQuery() > 0)
                 {
-                    return 1;
-                    //return comm.LastInsertedId;
+                    //return 1;
+                    return comm.LastInsertedId;
                 }
                 else
                     return -1;

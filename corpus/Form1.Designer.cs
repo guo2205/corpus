@@ -40,6 +40,7 @@
             this.select_corpus = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button6 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.button3 = new System.Windows.Forms.Button();
@@ -50,6 +51,9 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.button5 = new System.Windows.Forms.Button();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.label6 = new System.Windows.Forms.Label();
+            this.select_role = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -72,6 +76,8 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.select_role);
+            this.tabPage3.Controls.Add(this.label6);
             this.tabPage3.Controls.Add(this.dataGridView1);
             this.tabPage3.Controls.Add(this.button2);
             this.tabPage3.Controls.Add(this.button1);
@@ -99,7 +105,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(413, 215);
+            this.button2.Location = new System.Drawing.Point(413, 203);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 7;
@@ -108,7 +114,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(244, 215);
+            this.button1.Location = new System.Drawing.Point(244, 203);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 6;
@@ -134,7 +140,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(276, 98);
+            this.textBox1.Location = new System.Drawing.Point(276, 110);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(291, 21);
             this.textBox1.TabIndex = 3;
@@ -142,7 +148,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(168, 101);
+            this.label2.Location = new System.Drawing.Point(168, 113);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(41, 12);
             this.label2.TabIndex = 2;
@@ -170,6 +176,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button6);
             this.tabPage1.Controls.Add(this.button4);
             this.tabPage1.Controls.Add(this.dataGridView2);
             this.tabPage1.Controls.Add(this.button3);
@@ -185,9 +192,19 @@
             this.tabPage1.Text = "填充语料";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(443, 184);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(75, 23);
+            this.button6.TabIndex = 13;
+            this.button6.Text = "批量导入";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(391, 184);
+            this.button4.Location = new System.Drawing.Point(322, 184);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 12;
@@ -206,7 +223,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(220, 184);
+            this.button3.Location = new System.Drawing.Point(195, 184);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 10;
@@ -277,6 +294,30 @@
             this.dataGridView3.Size = new System.Drawing.Size(730, 582);
             this.dataGridView3.TabIndex = 0;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(168, 80);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(41, 12);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "角色：";
+            // 
+            // select_role
+            // 
+            this.select_role.FormattingEnabled = true;
+            this.select_role.Items.AddRange(new object[] {
+            "王鑫华",
+            "王洛灵"});
+            this.select_role.Location = new System.Drawing.Point(276, 77);
+            this.select_role.Name = "select_role";
+            this.select_role.Size = new System.Drawing.Size(127, 20);
+            this.select_role.TabIndex = 10;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -323,6 +364,10 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.DataGridView dataGridView3;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ComboBox select_role;
+        private System.Windows.Forms.Label label6;
     }
 }
 

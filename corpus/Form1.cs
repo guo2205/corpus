@@ -20,10 +20,8 @@ namespace corpus
         private void Form1_Load(object sender, EventArgs e)
         {
             select_corpus.SelectedIndex = 0;
-            //corpuslist.Add(new corpusList { corpus = "1", F = "2", Q = "3" });
+            select_role.SelectedIndex = 0;
             dataGridView1.RowHeadersDefaultCellStyle.Padding = new Padding(dataGridView1.RowHeadersWidth);
-            //dataGridView1.DataSource = corpuslist;
-            //dataGridView2.DataSource = corpuslist2;
             refush();
         }
 
@@ -37,7 +35,7 @@ namespace corpus
             switch (index)
             {
                 case 0:
-                    string q = TuLingTool.postdata(textBox1.Text, "0");
+                    string q = TuLingTool.postdata(textBox1.Text, "0",select_role.SelectedIndex);
                     corpusList corpuslist = new corpusList();
                     corpuslist.corpus = "图灵";
                     corpuslist.F = textBox1.Text;
@@ -49,7 +47,7 @@ namespace corpus
                     break;
                 case 1:
                     MySql mysql = new MySql();
-                    List<List<string>> list = mysql.GetAllSqlData("select `q` from zhijiayun_corpus where `f`='"+textBox1.Text+"'");
+                    List<List<string>> list = mysql.GetAllSqlData("select `q` from zhijiayun_corpus where `f`='" + textBox1.Text + "'");
                     if (list.Count > 0)
                     {
                         textBox2.Text = list[0][0];
@@ -84,6 +82,7 @@ namespace corpus
             textBox3.Text = "";
             textBox4.Text = "";
         }
+
         public void refush()
         {
             corpuslist3.Clear();
@@ -105,6 +104,30 @@ namespace corpus
         {
             refush();
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            string selectFileName = string.Empty;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                selectFileName = openFileDialog1.FileName;
+                ExcelHadle eh = new ExcelHadle(selectFileName);
+                MyJson.JsonNode_Array json = eh.GetData();
+                MessageBox.Show(json.ToString());
+                
+                MySql mysql = new MySql();
+                foreach (var item in json)
+                {
+                    var fjson = new MyJson.JsonNode_Object();
+                    string id = fjson["id"].ToString();
+                    MyJson.JsonNode_Array f = fjson["f"] as MyJson.JsonNode_Array;
+                    MyJson.JsonNode_Array q = fjson["q"] as MyJson.JsonNode_Array;
+                    long SqlId = mysql.AddSqlData("insert into (`q`,`role`) values('" + q.ToString() + "','0')");
+                }
+                mysql.Dispose();
+                
+            }
+        }
     }
 
     class corpusList
@@ -116,10 +139,23 @@ namespace corpus
 
     public class TuLingTool
     {
-        public static string postdata(string str, string userid)
+        public static string postdata(string str, string userid,int roleid)
         {
             string url = "http://www.tuling123.com/openapi/api";
-            string key = "2585370322d24d759f5dfe9c7dfb3ede";
+            //string key = "2585370322d24d759f5dfe9c7dfb3ede";\
+            string key;
+            switch(roleid)
+            {
+                case 0:
+                    key = "05b14814e3888bc141cbc066dd577768";//王鑫华
+                    break;
+                case 1:
+                    key = "ccbb9b948dbd40aa92fcdca79410f3fc";//王洛灵
+                    break;
+                default:
+                    key = "";
+                    break;
+            }
             MyJson.JsonNode_Object json = new MyJson.JsonNode_Object();
             json.SetDictValue("key", key);
             json.SetDictValue("info", get_uft8(str));
@@ -152,8 +188,8 @@ namespace corpus
         public static string get_uft8(string unicodeString)
         {
             UTF8Encoding utf8 = new UTF8Encoding();
-            Byte[] encodedBytes = utf8.GetBytes(unicodeString);
-            String decodedString = utf8.GetString(encodedBytes);
+            byte[] encodedBytes = utf8.GetBytes(unicodeString);
+            string decodedString = utf8.GetString(encodedBytes);
             return decodedString;
         }
     }
